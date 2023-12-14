@@ -1,6 +1,6 @@
 const UserService = require('../services/UserService');
 const JwtService = require('../services/JwtService');
-
+const admin = require('../config/firebase-config');
 const createUser = async (req, res) => {
 	try {
 		const { name, email, password, confirmPassword } = req.body;

@@ -5,6 +5,7 @@ const {
 	generalAccessToken,
 	generalRefreshAccessToken
 } = require('./JwtService');
+const { verifyIdToken } = require('../middleware/authMiddleware');
 
 const createUser = newUser => {
 	return new Promise(async (resolve, reject) => {
