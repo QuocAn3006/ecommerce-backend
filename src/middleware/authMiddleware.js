@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const admin = require('../config/firebase-config');
 dotenv.config();
 const authMiddleware = (req, res, next) => {
 	const token = req.headers.token.split(' ')[1];

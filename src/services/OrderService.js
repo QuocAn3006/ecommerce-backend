@@ -1,5 +1,6 @@
 const Order = require('../models/OrderProduct');
 const Product = require('../models/ProductModal');
+const EmailService = require('../services/EmailService');
 
 const createOrder = newOrder => {
 	return new Promise(async (resolve, reject) => {
@@ -13,7 +14,10 @@ const createOrder = newOrder => {
 			address,
 			city,
 			phone,
-			user
+			user,
+			isPaid,
+			paidAt,
+			email
 		} = newOrder;
 
 		try {
@@ -70,9 +74,13 @@ const createOrder = newOrder => {
 					itemPrice,
 					shippingPrice,
 					totalPrice,
-					user: user
+					user: user,
+					isPaid,
+					paidAt,
+					email
 				});
 				if (createOrder) {
+					await EmailService.sendEmail(email, orderItems);
 					resolve({
 						status: 'OK',
 						message: 'SUCCESS'
@@ -162,8 +170,24 @@ const cancelOrder = (id, data) => {
 	});
 };
 
+const getAllOrder = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const allOrder = await Order.find();
+			resolve({
+				status: 'OK',
+				message: 'success',
+				data: allOrder
+			});
+		} catch (e) {
+			reject(e);
+		}
+	});
+};
+
 module.exports = {
 	createOrder,
 	getOrderById,
-	cancelOrder
+	cancelOrder,
+	getAllOrder
 };
